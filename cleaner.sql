@@ -10,7 +10,7 @@ CREATE TABLE oficina (
   codigo_postal VARCHAR(10) NOT NULL,
   telefono VARCHAR(20) NOT NULL,
   linea_direccion1 VARCHAR(50) NOT NULL,
-  linea_direccion2 VARCHAR(50) DEFAULT NULL,
+  linea_direccion2 VARCHAR(50) DEFAULT 'NO TIENE',
   PRIMARY KEY (codigo_oficina)
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE gama_producto (
 );
 
 CREATE TABLE cliente (
-  codigo_cliente INTEGER NOT NULL,
+  codigo_cliente INTEGER AUTO_INCREMENT NOT NULL,
   nombre_cliente VARCHAR(50) NOT NULL,
   nombre_contacto VARCHAR(30) DEFAULT NULL,
   apellido_contacto VARCHAR(30) DEFAULT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE cliente (
   limite_credito NUMERIC(15,2) DEFAULT NULL,
   PRIMARY KEY (codigo_cliente),
   FOREIGN KEY (codigo_empleado_rep_ventas) REFERENCES empleado (codigo_empleado)
-);
+) AUTO_INCREMENT = 10;
 
 CREATE TABLE pedido (
   codigo_pedido INTEGER NOT NULL,
@@ -927,6 +927,79 @@ INSERT INTO pago VALUES (28,'PayPal','ak-std-000022','2009-01-13',8489);
 INSERT INTO pago VALUES (30,'PayPal','ak-std-000024','2009-01-16',7863);
 INSERT INTO pago VALUES (35,'PayPal','ak-std-000025','2007-10-06',3321);
 INSERT INTO pago VALUES (38,'PayPal','ak-std-000026','2006-05-26',1171);
+
+/*Sentencias DML*/
+/*RETO A*/
+show tables;
+describe oficina;
+select codigo_oficina, ciudad, pais, region, codigo_postal, telefono, linea_direccion1, linea_direccion2
+from oficina;
+select codigo_oficina, ciudad
+from oficina;
+
+/*RETO B*/
+show tables;
+describe oficina;
+select codigo_oficina, ciudad, pais, region, codigo_postal, telefono, linea_direccion1, linea_direccion2
+from oficina;
+select ciudad, telefono
+from oficina
+where pais = 'España';
+
+/*RETO C*/
+show tables;
+describe empleado;
+select codigo_empleado, nombre, apellido1, apellido2, extension, email, codigo_oficina, codigo_jefe, puesto
+from empleado;
+select nombre, apellido1, apellido2, email
+from empleado
+where codigo_jefe = 7;
+
+/*RETO D*/
+show tables;
+describe empleado;
+select codigo_empleado, nombre, apellido1, apellido2, extension, email, codigo_oficina, codigo_jefe, puesto
+from empleado;
+select puesto, nombre, apellido1, apellido2, email
+from empleado
+where codigo_jefe is null;
+
+/*RETO C*/
+show tables;
+describe empleado;
+select codigo_empleado, nombre, apellido1, apellido2, extension, email, codigo_oficina, codigo_jefe, puesto
+from empleado;
+select nombre, apellido1, apellido2, puesto
+from empleado
+where not puesto  = 'Representante Ventas';
+
+/*RETO E*/
+show tables;
+describe cliente;
+select codigo_cliente, nombre_cliente, nombre_contacto, apellido_contacto, telefono, fax, linea_direccion1, linea_direccion2, ciudad, region, pais, codigo_postal, codigo_empleado_rep_ventas, limite_credito
+from cliente;
+select nombre_cliente
+from cliente 
+where pais = 'spain';
+
+/*RETO F*/
+show tables;
+describe pedido;
+select codigo_pedido, fecha_pedido, fecha_esperada, fecha_entrega, estado, comentarios, codigo_cliente
+from pedido;
+select distinct estado from pedido;
+
+/*RETO G*/
+show tables;
+describe pago;
+select codigo_cliente, forma_pago, id_transaccion, fecha_pago, total
+from pago;
+select distinct codigo_cliente 
+from pago
+where year (fecha_pago) = 2008; 
+select distinct codigo_cliente
+from pago 
+where date_format(fecha_pago, '%Y') = 2008;
 
 
 
