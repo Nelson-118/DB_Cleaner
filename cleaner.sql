@@ -1021,7 +1021,8 @@ select codigo_pedido, fecha_pedido, fecha_esperada, fecha_entrega, estado, comen
 from pedido;
 select codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega
 from pedido
-where fecha_entrega is null or fecha_entrega > fecha_esperada;
+where fecha_entrega > fecha_esperada or (fecha_entrega) is null
+and estado not in('Rechazado', 'Pendiente');
 
 /*I. Genera un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos cuya fecha de entrega ha sido al menos dos días antes de la fecha esperada.
 
